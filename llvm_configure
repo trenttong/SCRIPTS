@@ -1,0 +1,4 @@
+#!/bin/bash
+
+~/llvm-core/configure --enable-targets=host-only
+#./configure --prefix=$PWD/install --enable-languages=c,c++  --enable-targets=host-only && make clean && make -j16 && make install

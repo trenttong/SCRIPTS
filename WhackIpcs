@@ -1,0 +1,27 @@
+
+USER=`whoami`
+if ! [ -z $1 ]; then
+	USER=$1
+	echo Purging IPC for user ID $USER
+fi
+
+# Delete the shared memory segments
+for id in $(ipcs -m | grep $USER | awk '{print $2}')
+do
+	echo "Deleting memory id:" $id
+	ipcrm -m $id
+done
+
+# Delete the semaphores
+for id in $(ipcs -s | grep $USER | awk '{print $2}')
+do
+	echo "Deleting semaphore id:" $id
+	ipcrm -s $id
+done
+
+# Delete the message queues
+for id in $(ipcs -q | grep $USER | awk '{print $2}')
+do
+	echo "Deleting message queues id:" $id
+	ipcrm -q $id
+done

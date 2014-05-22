@@ -1,0 +1,43 @@
+#! /bin/bash
+
+export session=$1;
+
+sleep 2;
+
+# Before using oprofile be sure to reset the data (data persists for subsequent measurements unless reset):
+echo "Shutting down old oprofile daemon"
+sudo opcontrol --shutdown;
+sudo opcontrol --reset;
+echo ""
+
+# Press Enter to start
+sudo opcontrol --setup --event=CPU_CLK_UNHALTED:100000;
+#sudo opcontrol --setup --event=CPU_CLK_UNHALTED:100000 --event=RAT_STALLS:6000:0x02:0:1;
+#sudo opcontrol --setup --event=ILD_STALL --event=BR_MISSP_EXEC;
+#sudo opcontrol --event=RAT_STALLS:6000:0x02:0:1;
+echo "Press Enter to Start OPROFILE";
+echo ""
+read x;
+
+# begin profiling 
+sudo opcontrol --start --no-vmlinux;
+
+# Press Enter to stop
+echo "Press Enter to Stop OPROFILE"
+echo ""
+read x;
+
+# end it
+sudo opcontrol --stop;
+
+# dump the profile data 
+sudo opcontrol --dump;
+
+# save the profile data
+sudo opcontrol --save=$session
+
+# process the report data
+sudo opreport -l -g -d --xml -o $session.opm session:$session;
+
+# Remove the oprofile data
+sudo rm -rf /var/lib/oprofile/samples/$1

@@ -1,0 +1,8 @@
+# use intel syntax. why do they even use ATT syntax ?
+set disassembly-flavor intel
+
+# let gdb figure out what the demangle style is 
+set demangle-style auto 
+
+# always log gdb output
+set logging on

@@ -1,0 +1,72 @@
+#! /bin/bash
+
+export session=$1;
+
+sleep 2;
+
+sudo rm -rf /var/lib/oprofile/samples/current
+
+# Before using oprofile be sure to reset the data (data persists for subsequent measurements unless reset):
+echo "Shutting down old oprofile daemon"
+sudo opcontrol --shutdown;
+sudo opcontrol --reset;
+
+echo ""
+
+#l1d: (counter: all)
+#        L1D cache events (min count: 2000000)
+#        Unit masks (default 0x1)
+#        ----------
+#        0x01: replacement L1D Data line replacements.
+#        0x02: allocated_in_m L1D M-state Data Cache Lines Allocated
+#        0x04: eviction L1D M-state Data Cache Lines Evicted due to replacement (only)
+#        0x08: all_m_replacement All Modified lines evicted out of L1D
+
+# Press Enter to start
+#sudo opcontrol --setup  --separate=thread --event=INST_RETIRED:200000 --event=icache:2000000:0x2:1;
+#sudo opcontrol --setup  --separate=thread --separate=cpu --event=LLC_MISSES:6000:0x41  ;
+#sudo opcontrol --setup  --separate=thread --event=INST_RETIRED:200000 --event=LLC_MISSES:200000:0x41  --event=LLC_REFS:200000:0x4f  ;
+#sudo opcontrol --setup  --separate=thread --event=INST_RETIRED:200000 --event=LLC_MISSES:200000:0x41  --event=LLC_REFS:200000:0x4f  ;
+#sudo opcontrol --setup  --separate=thread --event=mem_uops_retired:2000000:0x81  --event=mem_load_uops_retired:2000000:0x1  ;
+#sudo opcontrol --setup  --event=l1d:2000000;
+sudo opcontrol --setup  --separate=thread --event=CPU_CLK_UNHALTED:4000000 
+#sudo opcontrol --setup --event=INST_RETIRED:2000000 
+#sudo opcontrol --setup  --event=mem_load_uops_retired:2000000;
+#sudo opcontrol --setup  --event=BR_MISS_PRED_RETIRED:50000;
+#sudo opcontrol --setup  --event=br_misp_exec:200000:0xc4;
+#sudo opcontrol --setup --event=CPU_CLK_UNHALTED:100000 --event=RAT_STALLS:6000:0x02:0:1;
+#sudo opcontrol --setup --event=ILD_STALL --event=BR_MISSP_EXEC;
+#sudo opcontrol --event=RAT_STALLS:6000:0x02:0:1;
+
+# socrates specific setups 
+
+
+# plato specific setups 
+#sudo opcontrol --setup  --event=DATA_CACHE_MISSES:50000;
+
+echo "Press Enter to Start OPROFILE";
+echo ""
+read x;
+
+# begin profiling 
+sudo opcontrol --start --vmlinux=/usr/lib/debug/lib/modules/2.6.32-220.17.1.el6.x86_64/vmlinux;
+
+# Press Enter to stop
+echo "Press Enter to Stop OPROFILE"
+echo ""
+read x;
+
+# end it
+sudo opcontrol --stop;
+
+# dump the profile data 
+sudo opcontrol --dump;
+
+
+echo "Wait for 15 seconds to make sure opjitconv finishes"
+sleep 15 
+
+sudo opreport -l -g -d --xml -o current.opm session:current  && mv current.opm $1.opm
+sudo opcontrol --shutdown;
+
+#sudo rm -rf /var/lib/oprofile/samples/current

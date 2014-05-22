@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd /tmp
+wget http://www.skype.com/go/getskype-linux-beta-static
+cd /opt
+tar jxf /tmp/skype_static-2.2.0.99.tar.bz2
+rm /tmp/skype_static-2.2.0.99.tar.bz2
+
+ln -s skype_staticQT-2.2.0.99 skype
+ln -s /opt/skype /usr/share/skype
+ln -s /opt/skype/skype /usr/bin/skype
+ln -s /usr/lib/libtiff.so.3 /usr/lib/libtiff.so.4
+
+yum install glibc.i686 alsa-lib.i686 libXv.i686 libXScrnSaver.i686 libSM.i686 libXi.i686 libXrender.i686 libXrandr.i686 freetype.i686 fontconfig.i686 zlib.i686 glib2.i686 libstdc++.i686 libtiff.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.i686 
+
+#end
+
+

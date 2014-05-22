@@ -1,0 +1,39 @@
+# .bashrc
+
+# User specific aliases and functions
+alias cdhome='cd ~'
+alias cdtr='cd $TRSRC'
+alias cdem='cd ~/git-emily'
+alias ll='ls -al'
+alias vi='vim'
+alias emilysetenv='export PATH=$PWD:$PATH ; export LD_LIBRARY_PATH=$PWD'
+alias emilyset='. ~/scripts/emilyset'
+alias runwas='~/scripts/zemulator/zwas-script/zwas2.pl -n -i 1'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+   export TERM='xterm-256color'
+else
+   export TERM='xterm-color'
+fi
+
+# Turn off core-files by default
+ulimit -S -c 0
+export CVS_RSH=ssh
+export CVSROOT=':ext:xtong@mccvs.boeblingen.de.ibm.com:/cvs/emily/cvs'
+export CMVC_FAMILY=sov@sov.hursley.ibm.com@9438
+export CMVC_BECOME=xtong
+export LANG=C
+export PATH=/sbin/:/usr/local/bin:/usr/vacpp.old/bin:/opt/cmvc/bin/:$PATH
+export CMVC_AUTH_METHOD=PW
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
+
+# screen
+#screen -ls
+
+export Z1090_MODE=SINGLE
+export VISUAL=vim

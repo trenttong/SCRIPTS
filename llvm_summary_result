@@ -1,0 +1,354 @@
+#! /usr/bin/perl
+
+my $LLVMDIR="/home/xtong/research/adaptive-comp";
+my $TESTSUITE="$LLVMDIR/projects/llvm-test";
+
+print "LLVM Directory is $LLVMDIR\n";
+print "LLVM Test Suite Directory is $TESTSUITE\n";
+print "Summary Result Begin\n\n";
+
+##################################################################
+# OPTLEVEL == NONE
+# clean all the old runs
+# get the result line-by-line
+my $totalTime=0;
+my $codeGenTime=0;
+my $instSelTime=0;
+my $liveVarTime=0;
+my $raTime=0;
+my $fpStackTime=0;
+my $compPercent=0;
+ 
+open(MYINPUTFILE, "<$TESTSUITE/report.jit.txt.NONE");
+# discard the first line
+<MYINPUTFILE>;
+while(<MYINPUTFILE>)
+ {
+ # Good practice to store $_ value because
+ # subsequent operations may change it.
+ my($line) = $_;
+ 
+ # Good practice to always strip the trailing
+ # newline from the line.
+ chomp($line);
+
+ # Convert the line to upper case.
+ my @fields= split/,|\t| +|\|/;
+ if($fields[3] != '*')
+ {
+ $totalTime += $fields[3];
+ }
+ if($fields[4] != '*')
+ {
+ $codeGenTime += $fields[4];
+ }
+ if($fields[5] != '*')
+ {
+ $instSelTime += $fields[5];
+ }
+ if($fields[6] != '*')
+ {
+ $liveVarTime += $fields[6];
+ }
+ if($fields[7] != '*')
+ {
+ $raTime += $fields[7];
+ }
+ if($fields[8] != '*')
+ {
+ $fpStackTime += $fields[8];
+ }
+ # Print the line to the screen and add a newline
+ }
+ print "Total Time is $totalTime\n";
+ print "CodeGen Time is $codeGenTime\n";
+ print "InstSel Time is $instSelTime\n";
+ print "Live Var Time is $liveVarTime\n";
+ print "Reg Alloc Time is $raTime\n";
+ print "FP Stack Time is $fpStackTime\n";
+ $compPercent=$codeGenTime+$instSelTime+$liveVarTime+$raTime+$fpStackTime;
+ print "Total Compilation Time is $compPercent\n";
+ $compPercent=$compPercent/$totalTime;
+ $compPercent=$compPercent * 100;
+ print "NONE Compilation takes $compPercent%\n\n\n";
+
+close(MYINPUTFILE);
+
+##################################################################
+
+$totalTime=0;
+$codeGenTime=0;
+$instSelTime=0;
+$liveVarTime=0;
+$raTime=0;
+$fpStackTime=0;
+$compPercent=0;
+ 
+##################################################################
+# OPTLEVEL == LESS
+open(MYINPUTFILE, "<$TESTSUITE/report.jit.txt.LESS");
+# discard the first line
+<MYINPUTFILE>;
+while(<MYINPUTFILE>)
+ {
+ # Good practice to store $_ value because
+ # subsequent operations may change it.
+ my($line) = $_;
+ 
+ # Good practice to always strip the trailing
+ # newline from the line.
+ chomp($line);
+
+ # Convert the line to upper case.
+ my @fields= split/,|\t| +|\|/;
+ if($fields[3] != '*')
+ {
+ $totalTime += $fields[3];
+ }
+ if($fields[4] != '*')
+ {
+ $codeGenTime += $fields[4];
+ }
+ if($fields[5] != '*')
+ {
+ $instSelTime += $fields[5];
+ }
+ if($fields[6] != '*')
+ {
+ $liveVarTime += $fields[6];
+ }
+ if($fields[7] != '*')
+ {
+ $raTime += $fields[7];
+ }
+ if($fields[8] != '*')
+ {
+ $fpStackTime += $fields[8];
+ }
+ # Print the line to the screen and add a newline
+ }
+ print "Total Time is $totalTime\n";
+ print "CodeGen Time is $codeGenTime\n";
+ print "InstSel Time is $instSelTime\n";
+ print "Live Var Time is $liveVarTime\n";
+ print "Reg Alloc Time is $raTime\n";
+ print "FP Stack Time is $fpStackTime\n";
+ $compPercent=$codeGenTime+$instSelTime+$liveVarTime+$raTime+$fpStackTime;
+ print "Total Compilation Time is $compPercent\n";
+ $compPercent=$compPercent/$totalTime;
+ $compPercent=$compPercent * 100;
+ print "LESS Compilation takes $compPercent%\n\n\n";
+
+close(MYINPUTFILE);
+##################################################################
+
+$totalTime=0;
+$codeGenTime=0;
+$instSelTime=0;
+$liveVarTime=0;
+$raTime=0;
+$fpStackTime=0;
+$compPercent=0;
+
+##################################################################
+# OPTLEVEL == LESS
+open(MYINPUTFILE, "<$TESTSUITE/report.jit.txt.DEFAULT");
+# discard the first line
+<MYINPUTFILE>;
+while(<MYINPUTFILE>)
+ {
+ # Good practice to store $_ value because
+ # subsequent operations may change it.
+ my($line) = $_;
+ 
+ # Good practice to always strip the trailing
+ # newline from the line.
+ chomp($line);
+
+ # Convert the line to upper case.
+ my @fields= split/,|\t| +|\|/;
+ if($fields[3] != '*')
+ {
+ $totalTime += $fields[3];
+ }
+ if($fields[4] != '*')
+ {
+ $codeGenTime += $fields[4];
+ }
+ if($fields[5] != '*')
+ {
+ $instSelTime += $fields[5];
+ }
+ if($fields[6] != '*')
+ {
+ $liveVarTime += $fields[6];
+ }
+ if($fields[7] != '*')
+ {
+ $raTime += $fields[7];
+ }
+ if($fields[8] != '*')
+ {
+ $fpStackTime += $fields[8];
+ }
+ # Print the line to the screen and add a newline
+ }
+ print "Total Time is $totalTime\n";
+ print "CodeGen Time is $codeGenTime\n";
+ print "InstSel Time is $instSelTime\n";
+ print "Live Var Time is $liveVarTime\n";
+ print "Reg Alloc Time is $raTime\n";
+ print "FP Stack Time is $fpStackTime\n";
+ $compPercent=$codeGenTime+$instSelTime+$liveVarTime+$raTime+$fpStackTime;
+ print "Total Compilation Time is $compPercent\n";
+ $compPercent=$compPercent/$totalTime;
+ $compPercent=$compPercent * 100;
+ print "LESS Compilation takes $compPercent%\n\n\n";
+
+close(MYINPUTFILE);
+##################################################################
+
+$totalTime=0;
+$codeGenTime=0;
+$instSelTime=0;
+$liveVarTime=0;
+$raTime=0;
+$fpStackTime=0;
+$compPercent=0;
+ 
+##################################################################
+# OPTLEVEL == LESS
+open(MYINPUTFILE, "<$TESTSUITE/report.jit.txt.AGGR");
+# discard the first line
+<MYINPUTFILE>;
+while(<MYINPUTFILE>)
+ {
+ # Good practice to store $_ value because
+ # subsequent operations may change it.
+ my($line) = $_;
+ 
+ # Good practice to always strip the trailing
+ # newline from the line.
+ chomp($line);
+
+ # Convert the line to upper case.
+ my @fields= split/,|\t| +|\|/;
+ if($fields[3] != '*')
+ {
+ $totalTime += $fields[3];
+ }
+ if($fields[4] != '*')
+ {
+ $codeGenTime += $fields[4];
+ }
+ if($fields[5] != '*')
+ {
+ $instSelTime += $fields[5];
+ }
+ if($fields[6] != '*')
+ {
+ $liveVarTime += $fields[6];
+ }
+ if($fields[7] != '*')
+ {
+ $raTime += $fields[7];
+ }
+ if($fields[8] != '*')
+ {
+ $fpStackTime += $fields[8];
+ }
+ # Print the line to the screen and add a newline
+ }
+ print "Total Time is $totalTime\n";
+ print "CodeGen Time is $codeGenTime\n";
+ print "InstSel Time is $instSelTime\n";
+ print "Live Var Time is $liveVarTime\n";
+ print "Reg Alloc Time is $raTime\n";
+ print "FP Stack Time is $fpStackTime\n";
+ $compPercent=$codeGenTime+$instSelTime+$liveVarTime+$raTime+$fpStackTime;
+ print "Total Compilation Time is $compPercent\n";
+ $compPercent=$compPercent/$totalTime;
+ $compPercent=$compPercent * 100;
+ print "LESS Compilation takes $compPercent%\n\n\n";
+
+close(MYINPUTFILE);
+##################################################################
+
+
+$totalTime=0;
+$codeGenTime=0;
+$instSelTime=0;
+$liveVarTime=0;
+$raTime=0;
+$fpStackTime=0;
+$compPercent=0;
+ 
+##################################################################
+# OPTLEVEL == ADAPTIVE_COMP
+open(MYINPUTFILE, "<$TESTSUITE/report.jit.txt.ADAPTIVE");
+# discard the first line
+<MYINPUTFILE>;
+while(<MYINPUTFILE>)
+ {
+ # Good practice to store $_ value because
+ # subsequent operations may change it.
+ my($line) = $_;
+ 
+ # Good practice to always strip the trailing
+ # newline from the line.
+ chomp($line);
+
+ # Convert the line to upper case.
+ my @fields= split/,|\t| +|\|/;
+ if($fields[3] != '*')
+ {
+ $totalTime += $fields[3];
+ }
+ if($fields[4] != '*')
+ {
+ $codeGenTime += $fields[4];
+ }
+ if($fields[5] != '*')
+ {
+ $instSelTime += $fields[5];
+ }
+ if($fields[6] != '*')
+ {
+ $liveVarTime += $fields[6];
+ }
+ if($fields[7] != '*')
+ {
+ $raTime += $fields[7];
+ }
+ if($fields[8] != '*')
+ {
+ $fpStackTime += $fields[8];
+ }
+ # Print the line to the screen and add a newline
+ }
+ print "Total Time is $totalTime\n";
+ print "CodeGen Time is $codeGenTime\n";
+ print "InstSel Time is $instSelTime\n";
+ print "Live Var Time is $liveVarTime\n";
+ print "Reg Alloc Time is $raTime\n";
+ print "FP Stack Time is $fpStackTime\n";
+ $compPercent=$codeGenTime+$instSelTime+$liveVarTime+$raTime+$fpStackTime;
+ print "Total Compilation Time is $compPercent\n";
+ $compPercent=$compPercent/$totalTime;
+ $compPercent=$compPercent * 100;
+ print "Adaptive Compilation takes $compPercent%\n\n\n";
+
+close(MYINPUTFILE);
+##################################################################
+
+$totalTime=0;
+$codeGenTime=0;
+$instSelTime=0;
+$liveVarTime=0;
+$raTime=0;
+$fpStackTime=0;
+$compPercent=0;
+ 
+
+print "Summary Result End\n\n";
+

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+# run oprofile.
+
+sudo rm -rf /var/lib/oprofile/samples/current
+
+# Before using oprofile be sure to reset the data (data persists for subsequent measurements unless reset):
+echo "Shutting down old oprofile daemon"
+#sudo operf -s --separate-thread --event=CPU_CLK_UNHALTED:100000 --vmlinux=/usr/lib/debug/boot/vmlinux-`uname -r`
+sudo operf -s --separate-thread --event=CPU_CLK_UNHALTED:5000000 --vmlinux=/home/xtong/xtong-kernel/vmlinux
+echo ""
+
+# Press Enter to start
+#sudo operf --separate-thread --event=CPU_CLK_UNHALTED:100000;
+#sudo operf --setup  --event=mem_load_uops_retired:2000000;
+#sudo operf --setup  --event=BR_MISS_PRED_RETIRED:50000;
+#sudo operf --setup  --event=br_misp_exec:200000:0xc4;
+#sudo operf --setup --event=CPU_CLK_UNHALTED:100000 --event=RAT_STALLS:6000:0x02:0:1;
+#sudo operf --setup --event=ILD_STALL --event=BR_MISSP_EXEC;
+#sudo operf --event=RAT_STALLS:6000:0x02:0:1;
+#sudo operf --separate=thread --event=CPU_CLK_UNHALTED:100000 --event=LOCKED_OPS:1000;
+#sudo operf --separate=thread --event=LOCKED_OPS:1000;
+
+# socrates specific setups
+
+
+# dump the profile data
+#sudo opreport  -l -g -d --xml -o current.opm 
+sudo opreport --image-path /home/xtong/xtong-kernel  -l -g -d --xml -o current.opm 
+#session:current  && mv current.opm $1.opm
+
+
+

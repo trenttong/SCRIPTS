@@ -1,0 +1,160 @@
+#! /bin/bash
+
+export LLVMDIR=/home/xtong/research/adaptive-comp
+export TESTSUITE=$LLVMDIR/projects/llvm-test
+
+echo "LLVM Directory is $LLVMDIR"
+echo "LLVM Test Suite Directory is $TESTSUITE"
+echo "Changing directory to $TESTSUITE"
+echo "Running LLVM-JIT with different level of optimizations"
+cd $TESTSUITE
+
+##################################################################
+# OPTLEVEL == Interpreter
+# clean all the old runs
+#rm -f  $TESTSUITE/TEST.jit.Makefile
+#rm -f  $TESTSUITE/report.jit.*
+#make clean
+
+# get the TEST.jit.makefile and append O0 to it
+#export new_line="JIT_OPTS = -force-interpreter -stats -time-passes"
+#perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+#make TEST=jit report
+
+# test finishes, keep the report
+#echo "LLVM-JIT OPTLEVEL::NONE finished, Move report to report.NONE"
+#mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.INT
+#mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.INT
+##################################################################
+
+
+
+##################################################################
+# OPTLEVEL == NONE
+# clean all the old runs
+make clean
+rm -f  $TESTSUITE/TEST.jit.Makefile
+rm -f  $TESTSUITE/report.jit.*
+
+# get the TEST.jit.makefile and append O0 to it
+export new_line="JIT_OPTS = -O0 -force-interpreter=false -stats -time-passes"
+perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+make TEST=jit report
+
+# test finishes, keep the report
+echo "LLVM-JIT OPTLEVEL::NONE finished, Move report to report.NONE"
+mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.NONE
+mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.NONE
+##################################################################
+
+
+##################################################################
+# OPTLEVEL == LESS
+# clean all the old runs
+make clean
+rm -f  $TESTSUITE/TEST.jit.Makefile
+
+# get the TEST.jit.makefile and append O0 to it
+export new_line="JIT_OPTS = -O1 -force-interpreter=false -stats -time-passes"
+perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+make TEST=jit report
+
+# test finishes, keep the report
+echo "LLVM-JIT OPTLEVEL::LESS finished, Move report to report.LESS"
+mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.LESS
+mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.LESS
+##################################################################
+
+##################################################################
+# OPTLEVEL == DEFAULT 
+# clean all the old runs
+make clean
+rm -f  $TESTSUITE/TEST.jit.Makefile
+
+# get the TEST.jit.makefile and append O0 to it
+export new_line="JIT_OPTS = -O2 -force-interpreter=false -stats -time-passes"
+perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+make TEST=jit report
+
+# test finishes, keep the report
+echo "LLVM-JIT OPTLEVEL::LESS finished, Move report to report.LESS"
+mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.DEFAULT
+mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.DEFAULT
+##################################################################
+
+##################################################################
+# OPTLEVEL == AGGR
+# clean all the old runs
+make clean
+rm -f  $TESTSUITE/TEST.jit.Makefile
+
+# get the TEST.jit.makefile and append O0 to it
+export new_line="JIT_OPTS = -O3 -force-interpreter=false -stats -time-passes"
+perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+make TEST=jit report
+
+# test finishes, keep the report
+echo "LLVM-JIT OPTLEVEL::LESS finished, Move report to report.LESS"
+mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.AGGR
+mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.AGGR
+##################################################################
+
+
+
+##################################################################
+# OPTLEVEL == ADAPTIVE 
+make clean
+rm -f  $TESTSUITE/TEST.jit.Makefile
+
+# get the TEST.jit.makefile and append O0 to it
+export new_line="JIT_OPTS = -adaptive-comp -force-interpreter=false -stats -time-passes"
+perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+make TEST=jit report
+
+# test finishes, keep the report
+echo "LLVM-JIT OPTLEVEL::ADAPTIVE finished, Move report to report.ADAPTIVE"
+mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.ADAPTIVE
+mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.ADAPTIVE
+##################################################################
+
+
+##################################################################
+# OPTLEVEL == ASYNC 
+#make clean
+#rm -f  $TESTSUITE/TEST.jit.Makefile
+
+# get the TEST.jit.makefile and append O0 to it
+#export new_line="JIT_OPTS = -adaptive-comp -async-comp -force-interpreter=false -stats -time-passes"
+#perl -pe "s/.*/$new_line/ if $. == 9" < $TESTSUITE/TEST.jit.Makefile.bkp >  $TESTSUITE/TEST.jit.Makefile
+
+# make and run the test
+#make TEST=jit report
+
+# test finishes, keep the report
+#echo "LLVM-JIT OPTLEVEL::ASYNC finished, Move report to report.ASYNC"
+#mv $TESTSUITE/report.jit.raw.out $TESTSUITE/report.jit.raw.out.ASYNC
+#mv $TESTSUITE/report.jit.txt $TESTSUITE/report.jit.txt.ASYNC
+##################################################################
+
+
+##################################################################
+# Runs are finished, summarize the results
+# Grep for failures
+#fgrep "TEST-FAIL" $TESTSUITE/jit.report.* > $TESTSUITE/failures
+
+# Summarize Results
+/aristole_nfs/tools/scripts/llvm_summary_result &> $TESTSUITE/TEST.jit.summary.`date -I`
+##################################################################
+

@@ -1,0 +1,55 @@
+#! /bin/bash
+
+export session=$1;
+
+sleep 2;
+
+sudo rm -rf /var/lib/oprofile/samples/current
+
+# Before using oprofile be sure to reset the data (data persists for subsequent measurements unless reset):
+echo "Shutting down old oprofile daemon"
+sudo opcontrol --shutdown;
+sudo opcontrol --reset;
+echo ""
+
+# Press Enter to start
+sudo opcontrol --setup --separate=cpu --separate=thread --event=CPU_CLK_UNHALTED:2000000 --event=icache:2000000:0x2:1;
+#sudo opcontrol --setup  --event=mem_load_uops_retired:2000000;
+#sudo opcontrol --setup  --event=BR_MISS_PRED_RETIRED:50000;
+#sudo opcontrol --setup  --event=br_misp_exec:200000:0xc4;
+#sudo opcontrol --setup --event=CPU_CLK_UNHALTED:100000 --event=RAT_STALLS:6000:0x02:0:1;
+#sudo opcontrol --setup --event=ILD_STALL --event=BR_MISSP_EXEC;
+#sudo opcontrol --event=RAT_STALLS:6000:0x02:0:1;
+
+# socrates specific setups 
+
+
+# plato specific setups 
+#sudo opcontrol --setup  --event=DATA_CACHE_MISSES:50000;
+
+echo "Press Enter to Start OPROFILE";
+echo ""
+read x;
+
+# begin profiling 
+sudo opcontrol --start --no-vmlinux --separate=thread --separate=cpu;
+
+# Press Enter to stop
+echo "Press Enter to Stop OPROFILE"
+echo ""
+read x;
+
+# end it
+sudo opcontrol --stop;
+
+# dump the profile data 
+sudo opcontrol --dump;
+
+
+echo "Wait for 60 seconds to make sure opjitconv finishes"
+sleep 5 
+
+sudo opreport -l -g -d --xml -o current.opm session:current  && mv current.opm $1.opm
+sudo opcontrol --shutdown;
+
+#sudo rm -rf /var/lib/oprofile/samples/current
