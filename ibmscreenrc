@@ -15,7 +15,8 @@ bindkey -k kD
 bindkey -d -k kD
 
 # set the captions 
-caption always "%n %{= kc}%H (system load: %l)%-21=%{= .m}%D %d.%m.%Y %0c"
+#caption always "%n %{= kc}%H (system load: %l)%-21=%{= .m}%D %d.%m.%Y %0c"
+caption always "%n %{= kc}%H (system load: %l)%-21=%{= .m}%D %d.%m.%Y "
 
 
 # open 10 screens 
@@ -30,5 +31,9 @@ screen -t xtong_sc  6
 screen -t xtong_sc  7
 screen -t xtong_sc  8
 screen -t xtong_sc  9
+screen -t xtong_sc  11 
+screen -t xtong_sc  12
+screen -t xtong_sc  13
+screen -t xtong_sc  14
 
 

@@ -8,7 +8,11 @@ sudo rm -rf /var/lib/oprofile/samples/current
 # Before using oprofile be sure to reset the data (data persists for subsequent measurements unless reset):
 echo "Shutting down old oprofile daemon"
 #sudo operf -s --separate-thread --event=CPU_CLK_UNHALTED:100000 --vmlinux=/usr/lib/debug/boot/vmlinux-`uname -r`
-sudo operf -s --separate-thread --event=CPU_CLK_UNHALTED:5000000 --vmlinux=/home/xtong/xtong-kernel/vmlinux
+#yysudo operf -s --separate-thread  --event=INST_RETIRED:5000000 
+sudo operf -s --separate-thread  --event=DTLB_LOAD_MISSES:5000000 
+#sudo operf -s --separate-thread  --event=MEM_LOAD_RETIRED:200000 
+#--event=CPU_CLK_UNHALTED:100000  
+#--vmlinux=/home/xtong/xtong-kernel/vmlinux
 echo ""
 
 # Press Enter to start
@@ -27,7 +31,7 @@ echo ""
 
 # dump the profile data
 #sudo opreport  -l -g -d --xml -o current.opm 
-sudo opreport --image-path /home/xtong/xtong-kernel  -l -g -d --xml -o current.opm 
+sudo opreport   -l -g -d --xml -o current.opm 
 #session:current  && mv current.opm $1.opm
 
 
