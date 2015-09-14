@@ -1,0 +1,5 @@
+#!/bin/bash
+
+~rc/bin/xbsmount -mode=ios
+~rc/bin/getvers -update $1 swiftlang
+
