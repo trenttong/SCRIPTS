@@ -1,0 +1,17 @@
+echo "checking out llvm ..."
+git clone -b swift-master ssh://git.apple.com/git/puzzlebox/llvm.git
+echo "checking out clang ..."
+git clone -b swift-master ssh://git.apple.com/git/puzzlebox/clang.git
+echo "checking out swift ..."
+git clone ssh://git.apple.com/git/puzzlebox/swift.git
+cd swift
+git svn init svn+ssh://xin_tong@svn.apple.com/svn/klondike/shiny-project/shiny/trunk
+git config svn-remote.svn.fetch :refs/remotes/origin/master
+git svn rebase -l
+cd ..
+echo "checking out swift performance test suite ..."
+git clone ssh://git.apple.com/git/puzzlebox/swift-test-suite.git swift/benchmark/PerfTestSuite
+echo "checking out cmark ..."
+git clone ssh://git@gitlab.sd.apple.com/devtech/cmark.git
+echo "checking out ninja ..."
+git clone ssh://git.apple.com/git/puzzlebox/ninja.git
