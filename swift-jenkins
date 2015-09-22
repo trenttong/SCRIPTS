@@ -1,3 +1,3 @@
 #!/bin/bash
-$PWD/swift/utils/build-script --preset=buildbot_incremental,tools=RA,stdlib=RA
-$PWD/ swift/utils/build-script --preset=buildbot_incremental_asan,tools=RDA,stdlib=RDA
+swift/utils/build-script  --ios-all --tvos-all --test --validation-test --build-subdir=buildbot_incremental --release --assertions -- --reconfigure --verbose-build=1 --build-ninja --build-swift-benchmarks=1 --build-swift-static-stdlib=0 --compiler-vendor=apple --skip-test-ios --skip-test-tvos
+$PWD/swift/utils/build-script --ios-all --tvos-all --test --validation-test --build-subdir=buildbot_incremental_asan --release-debuginfo --assertions -- --reconfigure --verbose-build=1 --build-ninja --build-swift-benchmarks=1 --build-swift-static-stdlib=0 --compiler-vendor=apple --skip-build-ios --skip-test-ios --skip-build-tvos --skip-test-tvos --skip-build-watchos --skip-test-watchos --enable-asan
