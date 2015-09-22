@@ -1,0 +1,2 @@
+#!/bin/bash
+$PWD/swift/utils/build-script --preset=buildbot_incremental,tools=RA,stdlib=RA
